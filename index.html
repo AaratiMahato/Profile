@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aarati Mahato — UI/UX & Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --o9: #1c200a; --o8: #2d3611; --o7: #3f4d18; --o6: #556628;
+      --o5: #6e833a; --o4: #8da04f; --o3: #afc070; --o2: #ceda9e;
+      --o1: #e5edcc; --o0: #f3f7e5;
+      --white: #ffffff; --cream: #fafcf3;
+      --ink: #1c200a; --muted: #4a5620; --faint: #7a8f42;
+      --border: rgba(85,102,40,0.13); --border2: rgba(85,102,40,0.22);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+
+    /* CURSOR */
+    .cur { width: 8px; height: 8px; background: var(--o5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+    .cur-r { width: 28px; height: 28px; border: 1px solid var(--o4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: left .12s ease-out, top .12s ease-out; }
+    body { cursor: none; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 4rem; background: rgba(250,252,243,0.9); backdrop-filter: blur(14px); border-bottom: 0.5px solid var(--border); }
+    .logo { font-family: 'Tenor Sans', serif; font-size: 1.2rem; color: var(--o8); text-decoration: none; letter-spacing: 0.04em; }
+    .logo b { color: var(--o5); font-weight: 400; }
+    .nav-ul { list-style: none; display: flex; gap: 2.5rem; }
+    .nav-ul a { text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); transition: color .2s; }
+    .nav-ul a:hover { color: var(--o8); }
+    .nav-btn { background: var(--o8); color: var(--white); border: none; padding: 8px 20px; font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background .2s; }
+    .nav-btn:hover { background: var(--o9); }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: grid; grid-template-columns: 1.1fr 0.9fr; padding: 7rem 4rem 4rem; position: relative; overflow: hidden; gap: 4rem; align-items: center; background: var(--cream); }
+    .hero-glow { position: absolute; right: -100px; top: 50%; transform: translateY(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(ellipse, rgba(110,131,58,0.1) 0%, transparent 70%); pointer-events: none; }
+    .hero-grid-lines { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(var(--border) 0.5px, transparent 0.5px), linear-gradient(90deg, var(--border) 0.5px, transparent 0.5px); background-size: 80px 80px; opacity: 0.5; }
+    .hero-left { position: relative; z-index: 1; }
+    .hero-chip { display: inline-flex; align-items: center; gap: 8px; background: var(--o1); border: 0.5px solid var(--o3); border-radius: 2px; padding: 5px 14px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--o7); margin-bottom: 2rem; }
+    .hero-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--o5); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+    h1 { font-family: 'Tenor Sans', serif; font-size: clamp(3rem, 5vw, 4.8rem); line-height: 1.05; color: var(--o9); letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+    h1 .accent { color: var(--o6); }
+    .hero-p { font-size: 1rem; color: var(--muted); font-weight: 300; max-width: 420px; margin-bottom: 2.5rem; line-height: 1.9; }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-p { background: var(--o8); color: var(--white); padding: 13px 32px; text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; transition: background .2s, transform .15s; display: inline-block; }
+    .btn-p:hover { background: var(--o9); transform: translateY(-2px); }
+    .btn-o { background: transparent; color: var(--o7); border: 1px solid var(--o4); padding: 12px 28px; text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; transition: all .2s; display: inline-block; }
+    .btn-o:hover { background: var(--o1); }
+
+    /* HERO RIGHT — big typographic block */
+    .hero-right { position: relative; z-index: 1; }
+    .hero-card { background: var(--white); border: 0.5px solid var(--border2); padding: 0; overflow: hidden; box-shadow: 12px 12px 0 var(--o1); animation: fc 8s ease-in-out infinite; }
+    @keyframes fc { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .hc-top { background: var(--o8); padding: 2.2rem; position: relative; overflow: hidden; }
+    .hc-top::before { content:''; position: absolute; top:-50px; right:-50px; width:150px; height:150px; border-radius:50%; background:rgba(255,255,255,.05); }
+    .hc-av { width:58px; height:58px; border-radius:50%; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25); display:flex; align-items:center; justify-content:center; font-family:'Tenor Sans',serif; font-size:1.4rem; color:var(--white); margin-bottom:.9rem; }
+    .hc-name { font-family:'Tenor Sans',serif; font-size:1.3rem; color:var(--white); margin-bottom:2px; }
+    .hc-role { font-size:.72rem; color:rgba(255,255,255,.55); letter-spacing:.09em; text-transform:uppercase; }
+    .hc-body { padding:1.4rem 2rem; }
+    .hc-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin-bottom:1.2rem; }
+    .hc-stat-n { font-family:'Tenor Sans',serif; font-size:1.7rem; color:var(--o7); line-height:1; }
+    .hc-stat-l { font-size:.65rem; color:var(--faint); text-transform:uppercase; letter-spacing:.06em; margin-top:2px; }
+    .hc-divider { height:.5px; background:var(--border); margin-bottom:1.2rem; }
+    .hc-tags { display:flex; flex-wrap:wrap; gap:6px; }
+    .hc-tag { background:var(--o0); border:0.5px solid var(--o2); color:var(--o7); font-size:.7rem; font-weight:500; padding:4px 10px; }
+
+    /* TICKER */
+    .ticker { background:var(--o8); overflow:hidden; padding:12px 0; border-top:.5px solid var(--o7); border-bottom:.5px solid var(--o7); }
+    .ticker-inner { display:flex; animation:tick 24s linear infinite; white-space:nowrap; }
+    .ticker-inner span { font-size:.72rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.6); padding:0 2.5rem; }
+    .ticker-inner .dot { color:var(--o3); padding:0; font-size:.45rem; }
+    @keyframes tick { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* SECTIONS SHARED */
+    section { padding: 5.5rem 4rem; }
+    .inner { max-width: 1100px; margin: 0 auto; }
+    .s-tag { display:flex; align-items:center; gap:10px; font-size:.7rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--o5); margin-bottom:.8rem; }
+    .s-tag::before { content:''; width:20px; height:.5px; background:var(--o4); }
+    h2 { font-family:'Tenor Sans',serif; font-size:clamp(2rem,3.5vw,3rem); color:var(--o9); line-height:1.1; margin-bottom:.8rem; letter-spacing:-.01em; }
+    h2 i { font-style:italic; color:var(--o6); font-family:'Tenor Sans',serif; }
+    .s-lead { font-size:.97rem; color:var(--muted); font-weight:300; max-width:520px; margin-bottom:3.5rem; line-height:1.9; }
+
+    /* ABOUT */
+    #about { background:var(--white); }
+    .about-g { display:grid; grid-template-columns:1fr 1.15fr; gap:5rem; align-items:start; }
+    .about-p { font-size:.93rem; color:var(--muted); font-weight:300; margin-bottom:.9rem; line-height:1.9; }
+    .c-list { list-style:none; margin-top:1.8rem; }
+    .c-li { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:.5px solid var(--border); font-size:.84rem; color:var(--muted); }
+    .c-li:last-child{border-bottom:none;}
+    .c-ico { width:28px; height:28px; background:var(--o0); border:.5px solid var(--o2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .c-ico svg { width:13px; height:13px; stroke:var(--o6); fill:none; stroke-width:1.8; }
+    .c-li a { color:var(--o6); text-decoration:none; }
+    .c-li a:hover { text-decoration:underline; }
+    .skill-block { margin-bottom:1.8rem; }
+    .sk-label { font-size:.68rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--o5); margin-bottom:.6rem; display:flex; align-items:center; gap:8px; }
+    .sk-label::after { content:''; flex:1; height:.5px; background:var(--o2); }
+    .pills { display:flex; flex-wrap:wrap; gap:7px; }
+    .pill { background:var(--o0); border:.5px solid var(--o2); color:var(--o7); padding:5px 13px; font-size:.78rem; font-weight:400; transition:background .2s, border-color .2s; }
+    .pill:hover { background:var(--o1); border-color:var(--o4); }
+
+    /* EXPERIENCE */
+    #experience { background:var(--cream); }
+    .exp-row { display:grid; grid-template-columns:180px 1fr; gap:3rem; padding:3rem 0; border-top:.5px solid var(--border); }
+    .exp-date { font-size:.72rem; color:var(--o5); font-weight:500; letter-spacing:.06em; margin-bottom:6px; }
+    .exp-co { font-family:'Tenor Sans',serif; font-size:.98rem; color:var(--o9); }
+    .exp-loc { font-size:.72rem; color:var(--faint); margin-top:3px; }
+    .exp-title { font-family:'Tenor Sans',serif; font-size:1.35rem; color:var(--o8); margin-bottom:.9rem; }
+    .exp-ul { list-style:none; }
+    .exp-li { font-size:.86rem; color:var(--muted); font-weight:300; padding:3px 0 3px 18px; position:relative; line-height:1.8; }
+    .exp-li::before { content:'—'; position:absolute; left:0; color:var(--o4); font-size:.7rem; top:6px; }
+
+    /* PROJECTS */
+    #projects { background:var(--white); }
+    .proj-g { display:grid; grid-template-columns:1fr 1fr; border:.5px solid var(--border2); }
+    .proj-c { padding:2.5rem; border-right:.5px solid var(--border); border-bottom:.5px solid var(--border); position:relative; overflow:hidden; transition:background .25s; }
+    .proj-c:nth-child(even) { border-right:none; }
+    .proj-c:nth-child(n+3) { border-bottom:none; }
+    .proj-c:hover { background:var(--o0); }
+    .proj-num { font-family:'Tenor Sans',serif; font-size:5rem; color:var(--o1); position:absolute; top:.5rem; right:1rem; line-height:1; pointer-events:none; transition:color .25s; }
+    .proj-c:hover .proj-num { color:var(--o2); }
+    .proj-type { font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--o5); margin-bottom:.9rem; }
+    .proj-title { font-family:'Tenor Sans',serif; font-size:1.55rem; color:var(--o9); margin-bottom:.7rem; line-height:1.2; }
+    .proj-desc { font-size:.84rem; color:var(--muted); font-weight:300; margin-bottom:1.4rem; line-height:1.8; }
+    .proj-foot { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+    .proj-tags { display:flex; gap:5px; flex-wrap:wrap; }
+    .proj-tag { font-size:.68rem; color:var(--o6); border:.5px solid var(--o3); padding:2px 8px; }
+    .proj-a { display:inline-flex; align-items:center; gap:4px; font-size:.76rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--o7); text-decoration:none; }
+    .proj-a:hover { color:var(--o9); }
+    .proj-a svg { width:11px; height:11px; stroke:currentColor; fill:none; stroke-width:2; }
+
+    /* EDUCATION */
+    #education { background:var(--o9); }
+    #education .s-tag { color:var(--o3); }
+    #education .s-tag::before { background:var(--o4); }
+    #education h2 { color:var(--white); }
+    #education .s-lead { color:rgba(255,255,255,.45); }
+    .edu-g { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,.07); border:.5px solid rgba(255,255,255,.07); }
+    .edu-c { background:var(--o9); padding:2.5rem 2rem; transition:background .25s; }
+    .edu-c:hover { background:var(--o8); }
+    .edu-yr { font-size:.68rem; color:var(--o4); letter-spacing:.1em; text-transform:uppercase; margin-bottom:.9rem; }
+    .edu-deg { font-family:'Tenor Sans',serif; font-size:1.1rem; color:var(--white); margin-bottom:5px; line-height:1.3; }
+    .edu-sch { font-size:.8rem; color:rgba(255,255,255,.4); }
+
+    /* CERTS */
+    #certifications { background:var(--cream); }
+    .cert-g { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .cert-c { background:var(--white); border:.5px solid var(--border2); padding:1.4rem; transition:transform .2s, box-shadow .2s; }
+    .cert-c:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(85,102,40,.09); }
+    .cert-org { font-size:.65rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--o5); margin-bottom:5px; }
+    .cert-name { font-size:.88rem; color:var(--o9); line-height:1.4; }
+    .cert-yr { font-size:.72rem; color:var(--faint); margin-top:5px; }
+
+    /* CONTACT */
+    #contact { background:var(--white); }
+    .ct-g { display:grid; grid-template-columns:1fr 1fr; gap:6rem; }
+    .ct-h3 { font-family:'Tenor Sans',serif; font-size:1.7rem; color:var(--o9); margin-bottom:.9rem; line-height:1.2; }
+    .ct-p { font-size:.92rem; color:var(--muted); font-weight:300; margin-bottom:2rem; line-height:1.9; }
+    .ct-card { display:flex; align-items:center; gap:13px; padding:.95rem 1.1rem; border:.5px solid var(--border2); margin-bottom:9px; text-decoration:none; background:var(--cream); transition:background .2s, border-color .2s; }
+    .ct-card:hover { background:var(--o0); border-color:var(--o3); }
+    .ct-ico { width:38px; height:38px; background:var(--o8); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .ct-ico svg { width:16px; height:16px; stroke:var(--white); fill:none; stroke-width:1.75; }
+    .ct-lb { font-size:.67rem; color:var(--faint); text-transform:uppercase; letter-spacing:.08em; }
+    .ct-vl { font-size:.86rem; color:var(--o9); font-weight:500; }
+    .fm-h { font-family:'Tenor Sans',serif; font-size:1.35rem; color:var(--o9); margin-bottom:1.4rem; }
+    .fg { margin-bottom:1rem; }
+    .fg label { display:block; font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--o5); margin-bottom:6px; }
+    .fg input, .fg textarea { width:100%; padding:11px 15px; background:var(--o0); border:.5px solid var(--border2); font-family:'Jost',sans-serif; font-size:.87rem; color:var(--ink); outline:none; transition:border-color .2s, background .2s; resize:vertical; border-radius:0; }
+    .fg input:focus, .fg textarea:focus { border-color:var(--o5); background:var(--white); }
+    .fg textarea { min-height:110px; }
+    .fm-btn { width:100%; padding:14px; background:var(--o8); color:var(--white); border:none; font-family:'Jost',sans-serif; font-size:.8rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:background .2s; }
+    .fm-btn:hover { background:var(--o9); }
+
+    /* FOOTER */
+    footer { background:var(--o9); padding:2.5rem 4rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+    .f-logo { font-family:'Tenor Sans',serif; font-size:1.1rem; color:var(--white); text-decoration:none; }
+    .f-logo b { color:var(--o3); font-weight:400; }
+    footer p { font-size:.75rem; color:rgba(255,255,255,.3); }
+    .f-lks { display:flex; gap:1.5rem; }
+    .f-lks a { font-size:.72rem; color:rgba(255,255,255,.35); text-decoration:none; letter-spacing:.06em; transition:color .2s; }
+    .f-lks a:hover { color:var(--o3); }
+
+    /* REVEAL */
+    .rv { opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease; }
+    .rv.on { opacity:1; transform:translateY(0); }
+    .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      nav{padding:0 1.5rem;} .nav-ul{display:none;}
+      #hero{grid-template-columns:1fr; padding:6rem 1.5rem 3rem;} .hero-right{display:none;} .hero-grid-lines{opacity:.25;}
+      .about-g{grid-template-columns:1fr; gap:2.5rem;}
+      .exp-row{grid-template-columns:1fr; gap:.8rem;}
+      .proj-g{grid-template-columns:1fr;}
+      .proj-c{border-right:none!important; border-bottom:.5px solid var(--border)!important;}
+      .proj-c:last-child{border-bottom:none!important;}
+      .edu-g{grid-template-columns:1fr;}
+      .cert-g{grid-template-columns:1fr 1fr;}
+      .ct-g{grid-template-columns:1fr; gap:2.5rem;}
+      section{padding:4rem 1.5rem;}
+      footer{padding:2rem 1.5rem; flex-direction:column; align-items:flex-start;}
+      body{cursor:auto;} .cur,.cur-r{display:none;}
+    }
+    @media(max-width:500px){ .cert-g{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo">Aarati <b>Mahato</b></a>
+  <ul class="nav-ul">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-btn">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-left">
+    <div class="hero-chip rv">Available for opportunities</div>
+    <h1 class="rv d1">Crafting<br><span class="accent">Digital</span><br>Experiences</h1>
+    <p class="hero-p rv d2">MSc Advanced Computer Science student at Bangor University — bridging beautiful design and functional code across web and mobile.</p>
+    <div class="btn-row rv d3">
+      <a href="#projects" class="btn-p">View Work</a>
+      <a href="#contact" class="btn-o">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-right rv d2">
+    <div class="hero-card">
+      <div class="hc-top">
+        <div class="hc-av">AM</div>
+        <div class="hc-name">Aarati Mahato</div>
+        <div class="hc-role">UI/UX · Frontend · MSc CS</div>
+      </div>
+      <div class="hc-body">
+        <div class="hc-stats">
+          <div><div class="hc-stat-n">3+</div><div class="hc-stat-l">Years</div></div>
+          <div><div class="hc-stat-n">4+</div><div class="hc-stat-l">Projects</div></div>
+          <div><div class="hc-stat-n">6</div><div class="hc-stat-l">Certs</div></div>
+        </div>
+        <div class="hc-divider"></div>
+        <div class="hc-tags">
+          <span class="hc-tag">Figma</span>
+          <span class="hc-tag">HTML/CSS</span>
+          <span class="hc-tag">JavaScript</span>
+          <span class="hc-tag">AWS</span>
+          <span class="hc-tag">Python</span>
+          <span class="hc-tag">iOS UI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>UI/UX Design</span><span class="dot">◆</span><span>Frontend Development</span><span class="dot">◆</span><span>Figma Prototyping</span><span class="dot">◆</span><span>Responsive Design</span><span class="dot">◆</span><span>AWS Cloud</span><span class="dot">◆</span><span>Graphic Design</span><span class="dot">◆</span><span>User Research</span><span class="dot">◆</span><span>Mobile UI</span><span class="dot">◆</span>
+    <span>UI/UX Design</span><span class="dot">◆</span><span>Frontend Development</span><span class="dot">◆</span><span>Figma Prototyping</span><span class="dot">◆</span><span>Responsive Design</span><span class="dot">◆</span><span>AWS Cloud</span><span class="dot">◆</span><span>Graphic Design</span><span class="dot">◆</span><span>User Research</span><span class="dot">◆</span><span>Mobile UI</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="inner">
+    <div class="about-g">
+      <div class="rv">
+        <div class="s-tag">About Me</div>
+        <h2>Design meets <i>code</i></h2>
+        <p class="about-p">I'm a motivated IT graduate currently pursuing an MSc in Advanced Computer Science at Bangor University, Wales. With hands-on experience in UI/UX design and frontend development, I've shipped real products for real users.</p>
+        <p class="about-p">I'm passionate about building digital products that are both visually compelling and technically solid — bridging the gap between design and development across web and mobile.</p>
+        <ul class="c-list">
+          <li class="c-li"><span class="c-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><a href="mailto:aaratimahato777@gmail.com">aaratimahato777@gmail.com</a></li>
+          <li class="c-li"><span class="c-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.88a16 16 0 0 0 6.15 6.15l1.67-1.67a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>+44 7344 063116</li>
+          <li class="c-li"><span class="c-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Rhyl, Wales, UK</li>
+          <li class="c-li"><span class="c-ico"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span><a href="https://www.linkedin.com/in/aarati-mahato-b4a489213/" target="_blank">linkedin.com/in/aarati-mahato</a></li>
+          <li class="c-li"><span class="c-ico"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span><a href="https://github.com/AaratiMahato" target="_blank">github.com/AaratiMahato</a></li>
+        </ul>
+      </div>
+      <div class="rv d1">
+        <div class="skill-block"><div class="sk-label">Design</div><div class="pills"><span class="pill">Figma</span><span class="pill">UI/UX Design</span><span class="pill">Wireframing</span><span class="pill">Prototyping</span><span class="pill">User Research</span><span class="pill">Graphic Design</span></div></div>
+        <div class="skill-block"><div class="sk-label">Development</div><div class="pills"><span class="pill">HTML5</span><span class="pill">CSS3</span><span class="pill">JavaScript</span><span class="pill">Responsive Design</span><span class="pill">Python</span></div></div>
+        <div class="skill-block"><div class="sk-label">Technology</div><div class="pills"><span class="pill">AWS Cloud</span><span class="pill">Blockchain</span><span class="pill">IoT</span><span class="pill">Social Media</span></div></div>
+        <div class="skill-block"><div class="sk-label">Languages</div><div class="pills"><span class="pill">English</span><span class="pill">Nepali</span><span class="pill">Hindi</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="inner">
+    <div class="s-tag rv">Experience</div>
+    <h2 class="rv">Where I've <i>built</i> things</h2>
+    <p class="s-lead rv">Three roles across design, development, and digital — each adding a new dimension.</p>
+    <div class="rv">
+      <div class="exp-row">
+        <div><div class="exp-date">Sep 2024 – Dec 2025</div><div class="exp-co">WSNIT</div><div class="exp-loc">Kathmandu, Nepal</div></div>
+        <div><div class="exp-title">Graphics & UI/UX Designer</div><ul class="exp-ul"><li class="exp-li">Led UI/UX design for the meroNEP iOS app, applying user-centred design principles to boost usability and engagement.</li><li class="exp-li">Created high-quality visual assets ensuring brand consistency for the Nepali community.</li><li class="exp-li">Collaborated with developers to seamlessly integrate responsive UI components.</li><li class="exp-li">Conducted user testing and iterated designs based on real feedback.</li><li class="exp-li">Designed social media graphics to drive user adoption and brand awareness.</li></ul></div>
+      </div>
+      <div class="exp-row">
+        <div><div class="exp-date">May 2023 – Mar 2024</div><div class="exp-co">Smart Arce Media Solution</div><div class="exp-loc">Kathmandu, Nepal</div></div>
+        <div><div class="exp-title">Frontend Web Designer</div><ul class="exp-ul"><li class="exp-li">Designed and developed responsive website layouts using HTML, CSS, and JavaScript.</li><li class="exp-li">Created user-friendly, visually appealing pages to improve customer engagement.</li><li class="exp-li">Collaborated to implement updates and optimise mobile performance.</li><li class="exp-li">Maintained design consistency and performed cross-browser testing.</li></ul></div>
+      </div>
+      <div class="exp-row">
+        <div><div class="exp-date">Mar 2022 – Jan 2025</div><div class="exp-co">ABSCICCA International Education</div><div class="exp-loc">Kathmandu, Nepal</div></div>
+        <div><div class="exp-title">Social Media Handler</div><ul class="exp-ul"><li class="exp-li">Managed and scheduled content across multiple platforms, growing audience engagement.</li><li class="exp-li">Created posts, captions, and visual content aligned with marketing goals.</li><li class="exp-li">Monitored analytics and trends to continuously improve campaign performance.</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="inner">
+    <div class="s-tag rv">Selected Work</div>
+    <h2 class="rv"><i>Projects</i></h2>
+    <p class="s-lead rv">From live production apps to personal explorations.</p>
+    <div class="proj-g">
+      <div class="proj-c rv"><div class="proj-num">01</div><div class="proj-type">iOS App · UI/UX</div><div class="proj-title">meroNEP App</div><div class="proj-desc">Full UI/UX design for a community iOS app serving the Nepali diaspora — wireframes, prototypes, and brand-aligned visual assets.</div><div class="proj-foot"><div class="proj-tags"><span class="proj-tag">Figma</span><span class="proj-tag">Prototyping</span><span class="proj-tag">iOS</span></div><a href="https://www.meronep.com/" target="_blank" class="proj-a">Visit <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a></div></div>
+      <div class="proj-c rv d1"><div class="proj-num">02</div><div class="proj-type">Website · Frontend</div><div class="proj-title">Smart Arce Media</div><div class="proj-desc">Static website designed and built for a media solutions company — clean layout, strong brand identity, fully responsive.</div><div class="proj-foot"><div class="proj-tags"><span class="proj-tag">HTML</span><span class="proj-tag">CSS</span><span class="proj-tag">JavaScript</span></div><a href="https://smartacremediasolutions.com/" target="_blank" class="proj-a">Visit <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a></div></div>
+      <div class="proj-c rv d2"><div class="proj-num">03</div><div class="proj-type">App Design · Figma</div><div class="proj-title">Pregnant Food Planner</div><div class="proj-desc">A Figma-designed food planning app for pregnant women — intuitive navigation and clean mobile-first layout.</div><div class="proj-foot"><div class="proj-tags"><span class="proj-tag">Figma</span><span class="proj-tag">UX Research</span></div><a href="https://www.figma.com/proto/PVed1ibIx5Jb7RbK4Mc2es/Pregnant-Food-planner?node-id=23-307&t=Mzjtg4A0s4" target="_blank" class="proj-a">View <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a></div></div>
+      <div class="proj-c rv d3"><div class="proj-num">04</div><div class="proj-type">Portfolio · Frontend</div><div class="proj-title">Personal Portfolio</div><div class="proj-desc">Personal portfolio website built from scratch using HTML, CSS and JavaScript during self-learning phase.</div><div class="proj-foot"><div class="proj-tags"><span class="proj-tag">HTML</span><span class="proj-tag">CSS</span><span class="proj-tag">JS</span></div><a href="https://aaratim.com.np/" target="_blank" class="proj-a">Visit <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="inner">
+    <div class="s-tag rv">Education</div>
+    <h2 class="rv">Academic <i>background</i></h2>
+    <p class="s-lead rv">A blend of business, technology, and computer science.</p>
+    <div class="edu-g">
+      <div class="edu-c rv"><div class="edu-yr">Jan 2026 – Present</div><div class="edu-deg">MSc Advanced Computer Science</div><div class="edu-sch">Bangor University, Wales, UK</div></div>
+      <div class="edu-c rv d1"><div class="edu-yr">May 2021 – May 2025</div><div class="edu-deg">BSc in Information Technology</div><div class="edu-sch">Presidential Business School, Kathmandu</div></div>
+      <div class="edu-c rv d2"><div class="edu-yr">Aug 2017 – Aug 2019</div><div class="edu-deg">+2 Science</div><div class="edu-sch">Narayani Model Higher Secondary School, Bharatpur</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="inner">
+    <div class="s-tag rv">Certifications</div>
+    <h2 class="rv">Continuous <i>learning</i></h2>
+    <p class="s-lead rv">From cloud to blockchain — staying ahead of the curve.</p>
+    <div class="cert-g">
+      <div class="cert-c rv"><div class="cert-org">AWS Academy</div><div class="cert-name">AWS Cloud Foundations</div><div class="cert-yr">2023</div></div>
+      <div class="cert-c rv d1"><div class="cert-org">CodroidHub Pvt. Ltd.</div><div class="cert-name">Mastering Blockchain Essentials</div><div class="cert-yr">2023</div></div>
+      <div class="cert-c rv d2"><div class="cert-org">Great Learning Academy</div><div class="cert-name">UI/UX Design</div><div class="cert-yr">2024</div></div>
+      <div class="cert-c rv"><div class="cert-org">Robotics Associated Nepal</div><div class="cert-name">SHE Digital Program — IoT</div><div class="cert-yr">2022</div></div>
+      <div class="cert-c rv d1"><div class="cert-org">Presidential Business School</div><div class="cert-name">Python Programming</div><div class="cert-yr">2023</div></div>
+      <div class="cert-c rv d2"><div class="cert-org">Kumultimedia Solutions</div><div class="cert-name">Diploma in Graphic Design</div><div class="cert-yr">2017</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="inner">
+    <div class="s-tag rv">Get In Touch</div>
+    <h2 class="rv">Let's work <i>together</i></h2>
+    <div class="ct-g">
+      <div class="rv">
+        <h3 class="ct-h3">Open to new opportunities</h3>
+        <p class="ct-p">Whether you have a UI/UX project, a frontend role, or just want to talk technology — I'd love to hear from you.</p>
+        <a href="mailto:aaratimahato777@gmail.com" class="ct-card"><div class="ct-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="ct-lb">Email</div><div class="ct-vl">aaratimahato777@gmail.com</div></div></a>
+        <a href="tel:+447344063116" class="ct-card"><div class="ct-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.88a16 16 0 0 0 6.15 6.15l1.67-1.67a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="ct-lb">Phone</div><div class="ct-vl">+44 7344 063116</div></div></a>
+        <a href="https://www.linkedin.com/in/aarati-mahato-b4a489213/" target="_blank" class="ct-card"><div class="ct-ico"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div><div><div class="ct-lb">LinkedIn</div><div class="ct-vl">aarati-mahato-b4a489213</div></div></a>
+      </div>
+      <div class="rv d1">
+        <div class="fm-h">Send a message</div>
+        <div class="fg"><label>Name</label><input type="text" placeholder="Your full name" /></div>
+        <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com" /></div>
+        <div class="fg"><label>Message</label><textarea placeholder="Tell me about your project…"></textarea></div>
+        <button class="fm-btn" onclick="alert('Please email directly: aaratimahato777@gmail.com')">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#hero" class="f-logo">Aarati <b>Mahato</b></a>
+  <p>© 2026 All rights reserved</p>
+  <div class="f-lks">
+    <a href="https://github.com/AaratiMahato" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/aarati-mahato-b4a489213/" target="_blank">LinkedIn</a>
+    <a href="mailto:aaratimahato777@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur');
+  const curR = document.getElementById('curR');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+  (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});});
+</script>
+</body>
+</html>
